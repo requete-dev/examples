@@ -1,6 +1,5 @@
 from pyspark.sql import DataFrame
 from pyspark.sql.functions import col
-
 from requete import nodes, tests
 
 
@@ -41,6 +40,8 @@ def promote_prod(daily_metrics_df: DataFrame) -> None:
     daily_metrics_df.write.option(
         "path", "/tmp/requete/spark/warehouse/daily_analytics_promoted"
     ).mode("overwrite").partitionBy("order_day").saveAsTable("daily_analytics_promoted")
+
+
 # Promotion tests - these run BEFORE promotion to validate data quality
 
 

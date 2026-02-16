@@ -1,6 +1,5 @@
 from pyspark.sql import DataFrame, SparkSession
 from pyspark.sql.functions import countDistinct, sum
-
 from requete import nodes, tests
 
 

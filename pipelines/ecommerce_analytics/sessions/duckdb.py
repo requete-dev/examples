@@ -1,5 +1,4 @@
 from duckdb.experimental.spark.sql import SparkSession
-
 from requete import sessions
 
 
