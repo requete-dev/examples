@@ -1,0 +1,6 @@
+pipeline: simple
+python_version: "3.11"
+dependencies:
+  - pyspark==3.5.0
+  - duckdb>=1.1.0
+  - requete>=0.1.0
