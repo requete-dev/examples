@@ -1,5 +1,5 @@
 from pyspark.sql import DataFrame, SparkSession
-from pyspark.sql.functions import countDistinct, sum
+from pyspark.sql.functions import count, sum
 from requete import nodes, tests
 
 
@@ -13,7 +13,7 @@ def grp(join_tables_df: DataFrame) -> DataFrame:
     Returns:
         DataFrame with columns: a, c_modified (distinct count of c)
     """
-    return join_tables_df.groupBy("a").agg(countDistinct("c").alias("c_modified"))
+    return join_tables_df.groupBy("a").agg(count("c").alias("c_modified"))
 
 
 @tests.unit(tag="group_by")

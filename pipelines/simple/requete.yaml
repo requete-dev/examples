@@ -4,3 +4,5 @@ dependencies:
   - pyspark==3.5.0
   - duckdb>=1.1.0
   - requete>=0.1.0
+  - numpy>=1.23.0
+  - typing-extensions>=4.5.0

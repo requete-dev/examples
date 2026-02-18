@@ -1,7 +1,7 @@
 from datetime import datetime
 
 from pyspark.sql import DataFrame, SparkSession
-from pyspark.sql.functions import avg, col, countDistinct
+from pyspark.sql.functions import avg, col, count
 from pyspark.sql.functions import sum as spark_sum
 from requete import nodes, tests
 
@@ -25,8 +25,8 @@ def calculate_daily_metrics(enrich_orders_df: DataFrame) -> DataFrame:
     daily_df = (
         enrich_orders_df.groupBy("order_day")
         .agg(
-            countDistinct("order_id").alias("total_orders"),
-            countDistinct("user_id").alias("unique_customers"),
+            count("order_id").alias("total_orders"),
+            count("user_id").alias("unique_customers"),
             spark_sum("total_amount").alias("revenue"),
             avg("total_amount").alias("avg_order_value"),
             spark_sum("quantity").alias("units_sold"),
