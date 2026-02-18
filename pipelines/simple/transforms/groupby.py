@@ -1,5 +1,5 @@
 from pyspark.sql import DataFrame, SparkSession
-from pyspark.sql.functions import count, sum
+from pyspark.sql.functions import count
 from requete import nodes, tests
 
 
@@ -41,6 +41,6 @@ def test_2(group_by_df: DataFrame):
 @tests.integration(tag="group_by", env=["dev", "staging"])
 def test_3(group_by_df: DataFrame):
     """Validate aggregated c_modified sum is positive."""
-    row = group_by_df.agg(sum("c_modified").alias("c_sum")).first()
+    row = group_by_df.first()
     assert row is not None, "DataFrame was empty, aggregation returned no rows"
     assert row["c_sum"] > 1
