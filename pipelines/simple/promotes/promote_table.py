@@ -2,22 +2,15 @@ from pyspark.sql import DataFrame
 from requete import nodes, tests
 
 
-@nodes.promote(tag="promote", pipeline="simple", depends_on=["group_by"], env=["dev"])
-def promote_dev(group_by_df: DataFrame) -> None:
-    """Promotes validated data to dev promoted table."""
-    group_by_df.write.option(
-        "path", "/tmp/requete/spark/warehouse/dev_table_promoted"
-    ).mode("overwrite").saveAsTable("dev_table_promoted")
-
-
 @nodes.promote(
-    tag="promote", pipeline="simple", depends_on=["group_by"], env=["staging"]
+    tag="promote",
+    pipeline="simple",
+    depends_on=["group_by"],
+    env=["dev", "staging"],
 )
-def promote_staging(group_by_df: DataFrame) -> None:
-    """Promotes validated data to staging promoted table."""
-    group_by_df.write.option(
-        "path", "/tmp/requete/spark/warehouse/staging_table_promoted"
-    ).mode("overwrite").saveAsTable("staging_table_promoted")
+def promote_dev(group_by_df: DataFrame) -> None:
+    """Dev: write to temp view for validation only."""
+    group_by_df.createOrReplaceTempView("temp_table_promoted")
 
 
 @nodes.promote(

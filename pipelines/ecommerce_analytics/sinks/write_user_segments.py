@@ -6,26 +6,11 @@ from requete import nodes
     tag="write_user_segments",
     pipeline="ecommerce_analytics",
     depends_on=["user_segments"],
-    env=["dev", "ci"],
+    env=["dev", "staging", "ci"],
 )
 def write_dev(user_segments_df: DataFrame) -> None:
-    """Writes user segments to dev table (overwrite mode for testing)"""
-    user_segments_df.write.option(
-        "path", "/tmp/requete/spark/warehouse/dev_user_segments"
-    ).mode("overwrite").saveAsTable("dev_user_segments")
-
-
-@nodes.sink(
-    tag="write_user_segments",
-    pipeline="ecommerce_analytics",
-    depends_on=["user_segments"],
-    env=["staging"],
-)
-def write_staging(user_segments_df: DataFrame) -> None:
-    """Writes user segments to staging table (overwrite mode)"""
-    user_segments_df.write.option(
-        "path", "/tmp/requete/spark/warehouse/staging_user_segments"
-    ).mode("overwrite").saveAsTable("staging_user_segments")
+    """Dev: write to temp view for validation only."""
+    user_segments_df.createOrReplaceTempView("temp_user_segments")
 
 
 @nodes.sink(

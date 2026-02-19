@@ -7,26 +7,11 @@ from requete import nodes, tests
     tag="promote_analytics",
     pipeline="ecommerce_analytics",
     depends_on=["daily_metrics"],
-    env=["dev", "ci"],
+    env=["dev", "staging", "ci"],
 )
 def promote_dev(daily_metrics_df: DataFrame) -> None:
-    """Promotes validated daily metrics to dev promoted table"""
-    daily_metrics_df.write.option(
-        "path", "/tmp/requete/spark/warehouse/dev_daily_analytics_promoted"
-    ).mode("overwrite").saveAsTable("dev_daily_analytics_promoted")
-
-
-@nodes.promote(
-    tag="promote_analytics",
-    pipeline="ecommerce_analytics",
-    depends_on=["daily_metrics"],
-    env=["staging"],
-)
-def promote_staging(daily_metrics_df: DataFrame) -> None:
-    """Promotes validated daily metrics to staging promoted table"""
-    daily_metrics_df.write.option(
-        "path", "/tmp/requete/spark/warehouse/staging_daily_analytics_promoted"
-    ).mode("overwrite").saveAsTable("staging_daily_analytics_promoted")
+    """Dev: write to temp view for validation only."""
+    daily_metrics_df.createOrReplaceTempView("temp_daily_analytics_promoted")
 
 
 @nodes.promote(
