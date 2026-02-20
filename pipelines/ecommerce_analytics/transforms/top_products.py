@@ -15,9 +15,7 @@ def rank_products(enrich_orders_df: DataFrame) -> DataFrame:
     Returns top 10 products per category using window functions.
     """
     # Calculate product-level metrics
-    product_metrics = enrich_orders_df.groupBy(
-        "product_id", "product_name", "category", "list_price"
-    ).agg(
+    product_metrics = enrich_orders_df.groupBy("product_id", "product_name", "category", "list_price").agg(
         spark_sum("quantity").alias("units_sold"),
         spark_sum("total_amount").alias("revenue"),
         count("order_id").alias("order_count"),
@@ -61,9 +59,7 @@ def test_ranking(sparkSession: SparkSession) -> None:
     assert result.count() == 4
 
     # Check Electronics category rankings
-    electronics = (
-        result.filter(col("category") == "Electronics").orderBy("rank").collect()
-    )
+    electronics = result.filter(col("category") == "Electronics").orderBy("rank").collect()
     assert electronics[0]["product_name"] == "Product A"
     assert electronics[0]["rank"] == 1
     assert electronics[1]["rank"] == 2

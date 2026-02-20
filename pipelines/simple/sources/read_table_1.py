@@ -12,9 +12,7 @@ def pyspark_dev(sparkSession: SparkSession) -> DataFrame:
     Returns:
         DataFrame with columns: a (int), b (int)
     """
-    schema = StructType(
-        [StructField("a", IntegerType(), True), StructField("b", IntegerType(), True)]
-    )
+    schema = StructType([StructField("a", IntegerType(), True), StructField("b", IntegerType(), True)])
     data = [(1, 11), (2, 12), (1, 13)]
     return sparkSession.createDataFrame(data, schema)  # pyright: ignore[reportUnknownMemberType]
 

@@ -237,9 +237,7 @@ def orders_backfill(sparkSession: SparkSession, context: dict[str, str]) -> Data
     df = sparkSession.table("orders")
 
     if start_date and end_date:
-        df = df.filter(
-            (col("order_date") >= start_date) & (col("order_date") < end_date)
-        )
+        df = df.filter((col("order_date") >= start_date) & (col("order_date") < end_date))
 
     return df
 
@@ -265,20 +263,10 @@ def orders_test(orders_df: DataFrame) -> None:
         assert column in columns, f"Required column '{column}' is missing"
 
     # Test data quality - no nulls in non-nullable fields
-    assert orders_df.filter(col("order_id").isNull()).count() == 0, (
-        "order_id should not have nulls"
-    )
-    assert orders_df.filter(col("user_id").isNull()).count() == 0, (
-        "user_id should not have nulls"
-    )
-    assert orders_df.filter(col("product_id").isNull()).count() == 0, (
-        "product_id should not have nulls"
-    )
+    assert orders_df.filter(col("order_id").isNull()).count() == 0, "order_id should not have nulls"
+    assert orders_df.filter(col("user_id").isNull()).count() == 0, "user_id should not have nulls"
+    assert orders_df.filter(col("product_id").isNull()).count() == 0, "product_id should not have nulls"
 
     # Test business logic - quantity and price should be positive
-    assert orders_df.filter(col("quantity") <= 0).count() == 0, (
-        "quantity should be positive"
-    )
-    assert orders_df.filter(col("unit_price") <= 0).count() == 0, (
-        "unit_price should be positive"
-    )
+    assert orders_df.filter(col("quantity") <= 0).count() == 0, "quantity should be positive"
+    assert orders_df.filter(col("unit_price") <= 0).count() == 0, "unit_price should be positive"

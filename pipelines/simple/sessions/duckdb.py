@@ -2,9 +2,7 @@ from duckdb.experimental.spark.sql import SparkSession
 from requete import sessions
 
 
-@sessions.session(
-    tag="duckdb_dev_session", pipeline="simple", engine="duckdb", env=["dev"]
-)
+@sessions.session(tag="duckdb_dev_session", pipeline="simple", engine="duckdb", env=["dev"])
 def dev_xyz() -> SparkSession:
     """Create a DuckDB session for the dev environment.
 

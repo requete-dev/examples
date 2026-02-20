@@ -61,15 +61,9 @@ def users_test(users_df: DataFrame) -> None:
         assert column in columns, f"Required column '{column}' is missing"
 
     # Test data quality - no nulls in non-nullable fields
-    assert users_df.filter(col("user_id").isNull()).count() == 0, (
-        "user_id should not have nulls"
-    )
-    assert users_df.filter(col("user_name").isNull()).count() == 0, (
-        "user_name should not have nulls"
-    )
-    assert users_df.filter(col("email").isNull()).count() == 0, (
-        "email should not have nulls"
-    )
+    assert users_df.filter(col("user_id").isNull()).count() == 0, "user_id should not have nulls"
+    assert users_df.filter(col("user_name").isNull()).count() == 0, "user_name should not have nulls"
+    assert users_df.filter(col("email").isNull()).count() == 0, "email should not have nulls"
 
     # Test uniqueness - user_id and email should be unique
     total_count = users_df.count()
@@ -79,6 +73,4 @@ def users_test(users_df: DataFrame) -> None:
     assert total_count == distinct_email, "email should be unique"
 
     # Test email format - basic validation
-    assert users_df.filter(~col("email").contains("@")).count() == 0, (
-        "email should contain '@' symbol"
-    )
+    assert users_df.filter(~col("email").contains("@")).count() == 0, "email should contain '@' symbol"

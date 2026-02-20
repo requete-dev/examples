@@ -48,9 +48,7 @@ def segment_users(enrich_orders_df: DataFrame) -> DataFrame:
     # Calculate recency (days since last order from a reference date)
     # Using 2024-01-10 as reference (5 days after last order in test data)
     reference_date = lit("2024-01-10").cast("date")
-    user_rfm = user_rfm.withColumn(
-        "recency", datediff(reference_date, col("last_order_date"))
-    )
+    user_rfm = user_rfm.withColumn("recency", datediff(reference_date, col("last_order_date")))
 
     # Create quartiles for RFM scores using window functions
     window_spec = Window.partitionBy()
@@ -59,9 +57,7 @@ def segment_users(enrich_orders_df: DataFrame) -> DataFrame:
         "recency_score",
         ntile(4).over(window_spec.orderBy(col("recency"))),  # Lower recency is better
     )
-    user_rfm = user_rfm.withColumn(
-        "frequency_score", ntile(4).over(window_spec.orderBy(col("frequency").desc()))
-    )
+    user_rfm = user_rfm.withColumn("frequency_score", ntile(4).over(window_spec.orderBy(col("frequency").desc())))
     user_rfm = user_rfm.withColumn(
         "monetary_score",
         ntile(4).over(window_spec.orderBy(col("monetary_value").desc())),
@@ -71,9 +67,7 @@ def segment_users(enrich_orders_df: DataFrame) -> DataFrame:
     user_rfm = user_rfm.withColumn(
         "segment",
         when(
-            (col("recency_score") <= 2)
-            & (col("frequency_score") <= 2)
-            & (col("monetary_score") <= 2),
+            (col("recency_score") <= 2) & (col("frequency_score") <= 2) & (col("monetary_score") <= 2),
             "High Value",
         )
         .when((col("recency_score") >= 3) & (col("frequency_score") <= 2), "At Risk")

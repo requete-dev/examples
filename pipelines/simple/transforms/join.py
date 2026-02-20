@@ -2,9 +2,7 @@ from pyspark.sql import DataFrame
 from requete import nodes
 
 
-@nodes.transform(
-    tag="join_tables", pipeline="simple", depends_on=["read_table_1", "read_table_2"]
-)
+@nodes.transform(tag="join_tables", pipeline="simple", depends_on=["read_table_1", "read_table_2"])
 def join(read_table_1_df: DataFrame, read_table_2_df: DataFrame) -> DataFrame:
     """Join table_1 and table_2 on column b.
 

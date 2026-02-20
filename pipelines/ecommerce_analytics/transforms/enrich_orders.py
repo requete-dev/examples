@@ -10,9 +10,7 @@ from requete import nodes, tests
     pipeline="ecommerce_analytics",
     depends_on=["orders", "users", "products"],
 )
-def enrich(
-    orders_df: DataFrame, users_df: DataFrame, products_df: DataFrame
-) -> DataFrame:
+def enrich(orders_df: DataFrame, users_df: DataFrame, products_df: DataFrame) -> DataFrame:
     """
     Enriches orders with user and product information.
     Performs 3-way join and calculates derived fields.
@@ -28,9 +26,7 @@ def enrich(
 
     # Extract order_day and order_month for analytics
     enriched = enriched.withColumn("order_day", col("order_date"))
-    enriched = enriched.withColumn(
-        "order_month", date_format(col("order_date"), "yyyy-MM")
-    )
+    enriched = enriched.withColumn("order_month", date_format(col("order_date"), "yyyy-MM"))
 
     # Select and order columns logically
     return enriched.select(
@@ -109,9 +105,7 @@ def test_basic_enrichment(sparkSession: SparkSession) -> None:
 @tests.unit(tag="enrich_orders")
 def test_total_amount_calculation(sparkSession: SparkSession) -> None:
     """Test that total_amount is calculated correctly"""
-    orders_data = [
-        (1, 101, 201, datetime(2024, 1, 15), datetime(2024, 1, 15, 10, 30), 3, 50.0)
-    ]
+    orders_data = [(1, 101, 201, datetime(2024, 1, 15), datetime(2024, 1, 15, 10, 30), 3, 50.0)]
     orders: DataFrame = sparkSession.createDataFrame(  # pyright: ignore[reportUnknownMemberType]
         orders_data,
         [

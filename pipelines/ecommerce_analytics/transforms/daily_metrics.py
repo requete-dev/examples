@@ -77,9 +77,7 @@ def test_completeness(daily_metrics_df: DataFrame) -> None:
 
     # All metrics should be non-null
     null_counts = daily_metrics_df.filter(
-        col("total_orders").isNull()
-        | col("unique_customers").isNull()
-        | col("revenue").isNull()
+        col("total_orders").isNull() | col("unique_customers").isNull() | col("revenue").isNull()
     ).count()
 
     assert null_counts == 0, "No metrics should be null"

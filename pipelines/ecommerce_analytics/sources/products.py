@@ -50,9 +50,7 @@ def products_prod(sparkSession: SparkSession) -> DataFrame:
 
 
 @nodes.backfill_source(tag="products", pipeline="ecommerce_analytics", env=["backfill"])
-def products_backfill(
-    sparkSession: SparkSession, _context: dict[str, str]
-) -> DataFrame:
+def products_backfill(sparkSession: SparkSession, _context: dict[str, str]) -> DataFrame:
     """Backfill - products table is typically not filtered for backfills"""
     return sparkSession.table("products")
 
@@ -70,20 +68,12 @@ def products_test(products_df: DataFrame) -> None:
         assert column in columns, f"Required column '{column}' is missing"
 
     # Test data quality - no nulls in non-nullable fields
-    assert products_df.filter(col("product_id").isNull()).count() == 0, (
-        "product_id should not have nulls"
-    )
-    assert products_df.filter(col("product_name").isNull()).count() == 0, (
-        "product_name should not have nulls"
-    )
-    assert products_df.filter(col("category").isNull()).count() == 0, (
-        "category should not have nulls"
-    )
+    assert products_df.filter(col("product_id").isNull()).count() == 0, "product_id should not have nulls"
+    assert products_df.filter(col("product_name").isNull()).count() == 0, "product_name should not have nulls"
+    assert products_df.filter(col("category").isNull()).count() == 0, "category should not have nulls"
 
     # Test business logic - price should be positive
-    assert products_df.filter(col("list_price") <= 0).count() == 0, (
-        "list_price should be positive"
-    )
+    assert products_df.filter(col("list_price") <= 0).count() == 0, "list_price should be positive"
 
     # Test uniqueness - product_id should be unique
     total_count = products_df.count()
