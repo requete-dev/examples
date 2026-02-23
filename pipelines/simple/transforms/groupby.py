@@ -17,7 +17,7 @@ def grp(join_tables_df: DataFrame) -> DataFrame:
 
 
 @tests.unit(tag="group_by")
-def test_0(sparkSession: SparkSession):
+def test_0(sparkSession: SparkSession) -> None:
     """Unit test for group_by transformation logic."""
     data = [(1, 11), (2, 12), (1, 13)]
     columns = ["a", "c"]
@@ -27,19 +27,19 @@ def test_0(sparkSession: SparkSession):
 
 
 @tests.integration(tag="group_by", env=["dev"])
-def test_1(group_by_df: DataFrame):
+def test_1(group_by_df: DataFrame) -> None:
     """Validate group_by output count in dev environment."""
     assert group_by_df.count() == 2
 
 
 @tests.integration(tag="group_by", env=["staging"])
-def test_2(group_by_df: DataFrame):
+def test_2(group_by_df: DataFrame) -> None:
     """Validate group_by output has multiple rows in staging."""
     assert group_by_df.count() > 1
 
 
 @tests.integration(tag="group_by", env=["dev", "staging"])
-def test_3(group_by_df: DataFrame):
+def test_3(group_by_df: DataFrame) -> None:
     """Validate aggregated c_modified sum is positive."""
     row = group_by_df.first()
     assert row is not None, "DataFrame was empty, aggregation returned no rows"

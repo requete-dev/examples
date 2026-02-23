@@ -18,7 +18,7 @@ def pyspark_dev(sparkSession: SparkSession) -> DataFrame:
 
 
 @tests.source(tag="read_table_1", env=["dev", "staging", "prod", "backfill"])
-def common_test(read_table_1_df: DataFrame):
+def common_test(read_table_1_df: DataFrame) -> None:
     """Validate that read_table_1 produces non-empty data."""
     assert read_table_1_df.count() > 0
 

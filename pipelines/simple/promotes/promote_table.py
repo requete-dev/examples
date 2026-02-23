@@ -22,20 +22,20 @@ def promote_prod(group_by_df: DataFrame) -> None:
 
 
 @tests.promotion(tag="promote", env=["dev"])
-def test_promote_dev(group_by_df: DataFrame):
+def test_promote_dev(group_by_df: DataFrame) -> None:
     """Validates data before promotion in dev."""
     assert group_by_df.count() > 0, "Data should not be empty"
     assert "c_modified" in group_by_df.columns, "Expected column c_modified missing"
 
 
 @tests.promotion(tag="promote", env=["staging"])
-def test_promote_staging(group_by_df: DataFrame):
+def test_promote_staging(group_by_df: DataFrame) -> None:
     """Validates data before promotion in staging."""
     assert group_by_df.count() > 0, "Data should not be empty"
     assert group_by_df.filter(group_by_df.c_modified.isNull()).count() == 0, "Nulls found in c_modified"
 
 
 @tests.promotion(tag="promote", env=["prod", "backfill"])
-def test_promote_prod(group_by_df: DataFrame):
+def test_promote_prod(group_by_df: DataFrame) -> None:
     """Validates data before promotion in production."""
     assert group_by_df.count() > 0, "Data should not be empty"
