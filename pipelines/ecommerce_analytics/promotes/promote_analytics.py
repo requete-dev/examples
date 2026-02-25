@@ -22,9 +22,7 @@ def promote_dev(daily_metrics_df: DataFrame) -> None:
 )
 def promote_prod(daily_metrics_df: DataFrame) -> None:
     """Promotes validated daily metrics to production promoted table"""
-    daily_metrics_df.write.option("path", "/tmp/requete/spark/warehouse/daily_analytics_promoted").mode(
-        "overwrite"
-    ).partitionBy("order_day").saveAsTable("daily_analytics_promoted")
+    daily_metrics_df.write.mode("overwrite").partitionBy("order_day").saveAsTable("daily_analytics_promoted")
 
 
 # Promotion tests - these run BEFORE promotion to validate data quality

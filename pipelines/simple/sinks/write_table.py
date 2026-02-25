@@ -16,6 +16,4 @@ def write_dev(group_by_df: DataFrame) -> None:
 @nodes.sink(tag="write", pipeline="simple", depends_on=["group_by"], env=["prod", "backfill"])
 def write_prod(group_by_df: DataFrame) -> None:
     """Writes aggregated results to production table."""
-    group_by_df.write.option("path", "/tmp/requete/spark/warehouse/table_final").mode("overwrite").saveAsTable(
-        "table_final"
-    )
+    group_by_df.write.mode("overwrite").saveAsTable("table_final")

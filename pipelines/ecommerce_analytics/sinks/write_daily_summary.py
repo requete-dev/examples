@@ -22,6 +22,4 @@ def write_dev(daily_metrics_df: DataFrame) -> None:
 def write_prod(daily_metrics_df: DataFrame) -> None:
     """Writes daily metrics to production table (overwrite mode, partitioned by date)"""
     # In production, we partition by order_day for efficient querying
-    daily_metrics_df.write.option("path", "/tmp/requete/spark/warehouse/daily_analytics").mode("overwrite").partitionBy(
-        "order_day"
-    ).saveAsTable("daily_analytics")
+    daily_metrics_df.write.mode("overwrite").saveAsTable("daily_analytics")

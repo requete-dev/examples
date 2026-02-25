@@ -16,9 +16,7 @@ def promote_dev(group_by_df: DataFrame) -> None:
 @nodes.promote(tag="promote", pipeline="simple", depends_on=["group_by"], env=["prod", "backfill"])
 def promote_prod(group_by_df: DataFrame) -> None:
     """Promotes validated data to production promoted table."""
-    group_by_df.write.option("path", "/tmp/requete/spark/warehouse/table_promoted").mode("overwrite").saveAsTable(
-        "table_promoted"
-    )
+    group_by_df.write.mode("overwrite").saveAsTable("prod_table_promoted")
 
 
 @tests.promotion(tag="promote", env=["dev"])

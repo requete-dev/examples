@@ -25,6 +25,4 @@ def write_prod(user_segments_df: DataFrame) -> None:
     Uses overwrite mode since we want the latest segmentation snapshot.
     In a real scenario, you might use merge/upsert to update only changed users.
     """
-    user_segments_df.write.option("path", "/tmp/requete/spark/warehouse/user_segments").mode("overwrite").saveAsTable(
-        "user_segments"
-    )
+    user_segments_df.write.mode("overwrite").saveAsTable("user_segments")

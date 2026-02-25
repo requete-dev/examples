@@ -1,0 +1,6 @@
+{
+  "python.defaultInterpreterPath": "${workspaceFolder}/pipelines/.venv/bin/python",
+  "python.analysis.typeCheckingMode": "off",
+  "pylance.typeCheckingMode": "off",
+  "basedpyright.typeCheckingMode": "standard"
+}
