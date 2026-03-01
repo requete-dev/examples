@@ -1,23 +1,23 @@
-pipeline: large_pipeline  # Pipeline name
-python_version: "3.11"  # Python version for the virtual environment
-dependencies:  # pip packages installed into the pipeline's venv
-  - pyspark==3.5.0  # Spark engine
-  - duckdb>=1.1.0  # DuckDB engine
-  - requete>=0.1.0  # Requete framework
-  - numpy>=1.23.0  # Required by duckdb (missing from its dependencies)
-  - typing-extensions>=4.5.0  # Required by duckdb (missing from its dependencies)
+pipeline: large_pipeline # Pipeline name
+python_version: "3.11" # Python version for the virtual environment
+dependencies: # pip packages installed into the pipeline's venv
+  - pyspark==3.5.0 # Spark engine
+  - duckdb>=1.1.0 # DuckDB engine
+  - requete>=0.1.0 # Requete framework
+  - numpy>=1.23.0 # Required by duckdb (missing from its dependencies)
+  - typing-extensions>=4.5.0 # Required by duckdb (missing from its dependencies)
 
 env:
   common:
-    TMPDIR: "/tmp/requete/python-workdir"  # Python worker temp directory
+    TMPDIR: "/tmp/requete/python-workdir" # Python worker temp directory
 
   spark:
-    JAVA_HOME: "/Library/Java/JavaVirtualMachines/jdk-21.jdk/Contents/Home"  # JVM runtime
-    SPARK_LOCAL_DIRS: "/tmp/requete/spark"  # Shuffle and cache files
+    JAVA_HOME: "/Library/Java/JavaVirtualMachines/jdk-21.jdk/Contents/Home" # JVM runtime
+    SPARK_LOCAL_DIRS: "/tmp/requete/spark" # Shuffle and cache files
     PYSPARK_SUBMIT_ARGS: >-
       --conf spark.local.dir=/tmp/requete/spark
       --conf spark.sql.warehouse.dir=/tmp/requete/spark/warehouse
       pyspark-shell
 
   duckdb:
-    DUCKDB_TMPDIR: "/tmp/requete/duckdb"  # Temp tables and spill-to-disk
+    DUCKDB_TMPDIR: "/tmp/requete/duckdb" # Temp tables and spill-to-disk
